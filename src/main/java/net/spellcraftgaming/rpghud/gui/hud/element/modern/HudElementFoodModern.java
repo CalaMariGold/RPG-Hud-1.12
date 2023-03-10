@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
@@ -10,6 +11,10 @@ import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import net.minecraft.client.gui.ScaledResolution;
+import scala.collection.parallel.ParIterableLike;
+
 
 public class HudElementFoodModern extends HudElement {
 
@@ -36,11 +41,19 @@ public class HudElementFoodModern extends HudElement {
         else
             ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
+        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+        int anchorscaleX =scaledWidth/2 -100;
+        //System.out.println(res.getScaleFactor());
+        int anchorscaleY = scaledHeight-50;//scaledHeight/2 + 50;
+
         int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 24 : 2)
                 + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? xOffset : 0)
-                + this.settings.getPositionValue(Settings.hunger_position)[0];
-        int textPosX = this.settings.getPositionValue(Settings.hunger_position)[0];
-        int posY = this.settings.getPositionValue(Settings.hunger_position)[1];
+                + this.settings.getPositionValue(Settings.hunger_position)[0]
+                + anchorscaleX;
+
+
+        int textPosX = this.settings.getPositionValue(Settings.hunger_position)[0] + anchorscaleX;
+        int posY = this.settings.getPositionValue(Settings.hunger_position)[1]+anchorscaleY;
 
         if(this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
             drawRect(textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 12, width, 8, 0xA0000000);
