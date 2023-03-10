@@ -42,9 +42,12 @@ public class HudElementFoodModern extends HudElement {
             ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
         ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
-        int anchorscaleX =scaledWidth/2 -100;
-        //System.out.println(res.getScaleFactor());
-        int anchorscaleY = scaledHeight-50;//scaledHeight/2 + 50;
+        //int anchorscaleX =scaledWidth/2 -100;
+        int anchorscaleX =scaledWidth/2;
+        System.out.println(scaledWidth);
+        System.out.println(res.getScaleFactor());
+
+        int anchorscaleY = scaledHeight;//scaledHeight/2 + 50;
 
         int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 24 : 2)
                 + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? xOffset : 0)

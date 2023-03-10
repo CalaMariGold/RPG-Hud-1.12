@@ -37,11 +37,15 @@ public class HudElementHealthModern extends HudElement {
         else
             ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
+        //MY ANCHORING CODE
+        int xAnchor = scaledWidth/2;
+        int yAnchor = scaledHeight;
+
         int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 24 : 2)
                 + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? xOffset : 0)
-                + this.settings.getPositionValue(Settings.health_position)[0];
-        int textPosX = this.settings.getPositionValue(Settings.health_position)[0];
-        int posY = this.settings.getPositionValue(Settings.health_position)[1];
+                + this.settings.getPositionValue(Settings.health_position)[0]+xAnchor;
+        int textPosX = this.settings.getPositionValue(Settings.health_position)[0]+xAnchor;
+        int posY = this.settings.getPositionValue(Settings.health_position)[1]+yAnchor;
 
         if(this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
             drawRect(textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);

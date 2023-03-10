@@ -32,6 +32,10 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
     @Override
     public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        //MY ANCHORS
+        int xAnchor = 0; //Just in case
+        int yAnchor = scaledHeight;
+
         this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16)
                 + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 8);
         int width = calculateWidth();
@@ -41,10 +45,10 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 GL11.glTranslated(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1],
                         0);
             }
-            GL11.glTranslated(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+            GL11.glTranslated(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1]+yAnchor, 0);
             drawItemDetails(gui, 0, width);
             drawItemDetails(gui, 1, width);
-            GL11.glTranslated(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+            GL11.glTranslated(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1]+yAnchor, 0);
             if(this.settings.getBoolValue(Settings.show_arrow_count)) {
                 GL11.glTranslated(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
                 drawArrowCount(gui, width);
