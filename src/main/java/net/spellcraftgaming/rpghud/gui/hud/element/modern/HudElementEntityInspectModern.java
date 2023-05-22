@@ -9,10 +9,32 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementEntityInspectModern extends HudElementEntityInspectVanilla {
 
+    private long focusLostTime = 0L;
+    private EntityLiving previousFocused;
     @Override
     public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         EntityLiving focused = GameData.getFocusedEntity(GameData.getPlayer());
-        if(focused != null) {
+
+        if (focused != null) {
+            previousFocused = focused;
+            focusLostTime = 0L; // Reset focusLostTime if the entity is focused again
+        } else if (previousFocused != null) {
+            if (focusLostTime == 0L) {
+                focusLostTime = System.currentTimeMillis();
+            } else if (System.currentTimeMillis() - focusLostTime < 1500L) { // Adjust the delay value (in milliseconds) as desired
+                focused = previousFocused;
+            } else {
+                // Reset the focusLostTime and previousFocused after the delay
+                focusLostTime = 0L;
+                previousFocused = null;
+                return;
+            }
+        } else {
+            return; // Exit the method if there is no focused entity and no previousFocused entity
+        }
+
+
+        if (focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
 
@@ -36,10 +58,10 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
             GameData.getFontRenderer().drawString(focused.getName(), x, y, -1);
 
             drawEntityOnScreen(posX - 60 + 14, 22 + 25 + posY, focused);
-            
-            if(settings.getBoolValue(Settings.show_entity_armor)) {
+
+            if (settings.getBoolValue(Settings.show_entity_armor)) {
                 int armor = focused.getTotalArmorValue();
-                if(armor > 0) {
+                if (armor > 0) {
                     this.mc.getTextureManager().bindTexture(GameData.icons());
                     String value = String.valueOf(armor);
                     drawRect(posX - 30, posY + 42, 8 + (GameData.getFontRenderer().getStringWidth(value) / 2), 6, 0xA0000000);
