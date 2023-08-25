@@ -7,13 +7,38 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+import net.minecraft.entity.EntityList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+
+
 public class HudElementEntityInspectModern extends HudElementEntityInspectVanilla {
 
     private long focusLostTime = 0L;
     private EntityLiving previousFocused;
+
+    // Create a set of entity IDs to ignore
+    private static final Set<String> IGNORED_ENTITY_IDS = new HashSet<>(
+            Arrays.asList(
+                    "eyes",
+                    "angel",
+                    "Creeper",
+                    "Bat"
+            )
+    );
     @Override
     public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         EntityLiving focused = GameData.getFocusedEntity(GameData.getPlayer());
+
+        // Check if the focused entity should be ignored
+        if (focused != null) {
+            String entityId = EntityList.getEntityString(focused);
+            if (entityId != null && IGNORED_ENTITY_IDS.contains(entityId)) {
+                return;
+            }
+        }
 
         if (focused != null) {
             previousFocused = focused;
