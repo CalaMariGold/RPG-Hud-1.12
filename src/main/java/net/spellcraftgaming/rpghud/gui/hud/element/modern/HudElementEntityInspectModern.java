@@ -11,8 +11,7 @@ import net.minecraft.entity.EntityList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-
+import net.minecraft.util.ResourceLocation;
 
 public class HudElementEntityInspectModern extends HudElementEntityInspectVanilla {
 
@@ -20,21 +19,25 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
     private EntityLiving previousFocused;
 
     // Create a set of entity IDs to ignore
-    private static final Set<String> IGNORED_ENTITY_IDS = new HashSet<>(
+    private static final Set<ResourceLocation> IGNORED_ENTITY_IDS = new HashSet<>(
             Arrays.asList(
-                    "eyes",
-                    "angel",
-                    "Creeper",
-                    "Bat"
+                    new ResourceLocation("eyesinthedarkness:eyes"),
+                    new ResourceLocation("weeping-angels:weepingangel"),
+                    new ResourceLocation("betterswim:herobrine"),
+                    new ResourceLocation("minecraft:creeper"),
+                    new ResourceLocation("minecraft:bat"),
+                    new ResourceLocation("dimdoors:mob_monolith")
+
             )
     );
+
     @Override
     public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         EntityLiving focused = GameData.getFocusedEntity(GameData.getPlayer());
 
         // Check if the focused entity should be ignored
         if (focused != null) {
-            String entityId = EntityList.getEntityString(focused);
+            ResourceLocation entityId = EntityList.getKey(focused);
             if (entityId != null && IGNORED_ENTITY_IDS.contains(entityId)) {
                 return;
             }
@@ -57,7 +60,6 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
         } else {
             return; // Exit the method if there is no focused entity and no previousFocused entity
         }
-
 
         if (focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
@@ -98,5 +100,4 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
             }
         }
     }
-
 }
