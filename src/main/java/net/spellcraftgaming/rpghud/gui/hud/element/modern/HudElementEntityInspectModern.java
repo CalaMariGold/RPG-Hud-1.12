@@ -26,7 +26,8 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
                     new ResourceLocation("betterswim:herobrine"),
                     new ResourceLocation("minecraft:creeper"),
                     new ResourceLocation("minecraft:bat"),
-                    new ResourceLocation("dimdoors:mob_monolith")
+                    new ResourceLocation("dimdoors:mob_monolith"),
+                    new ResourceLocation("beneath:shadow")
 
             )
     );
